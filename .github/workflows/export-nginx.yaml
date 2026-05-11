@@ -1,0 +1,20 @@
+name: Export nginx image
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Docker pull and save
+        run: |
+          docker pull nginx:latest
+          docker save -o nginx.tar nginx:latest
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nginx-image
+          path: nginx.tar
